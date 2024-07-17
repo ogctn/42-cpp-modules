@@ -18,7 +18,7 @@ class RobotomyRequestForm : public AForm {
 		std::string getTarget() const;
 		void setTarget( const std::string &target );
 
-		class LowLevel : public std::exception {
+		class Failed : public std::exception {
 			virtual const char*	what() const throw();
 		};
 };
