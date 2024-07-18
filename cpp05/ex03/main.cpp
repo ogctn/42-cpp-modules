@@ -50,4 +50,8 @@ int	main() {
 	b1.signForm(*form3);
 	b1.executeForm(*form3);
 	std::cout << *form1 << std::endl;
+
+	delete form1;
+	delete form2;
+	delete form3;
 }

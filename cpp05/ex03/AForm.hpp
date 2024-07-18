@@ -19,7 +19,7 @@ class AForm {
 		AForm();
 		AForm( const std::string &name, int grade, int execGrade);
 		AForm( const AForm &b );
-		~AForm();
+		virtual ~AForm();
 		AForm &operator=( const AForm &b );
 		
 		std::string getName() const;
