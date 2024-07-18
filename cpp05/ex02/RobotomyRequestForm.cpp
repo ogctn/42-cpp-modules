@@ -1,8 +1,11 @@
 #include "RobotomyRequestForm.hpp"		
 
+static int _form_counter;
+
 void RobotomyRequestForm::_do() const {
 	std::cout << "Zzzz Bzzz Drilling Sound!" << std::endl;
-	if (rand() % 2)
+
+	if ( ++_form_counter % 2 )
 		std::cout << _target << " has been robotomized successfully!" << std::endl;
 	else
 		throw Failed();
@@ -19,6 +22,7 @@ RobotomyRequestForm::RobotomyRequestForm( const RobotomyRequestForm &b ) : AForm
 }
 
 RobotomyRequestForm &RobotomyRequestForm::operator=( const RobotomyRequestForm &b )  {
+	if ( this == &b ) {}
 	return (*this);
 }
 

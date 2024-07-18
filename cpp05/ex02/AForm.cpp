@@ -59,15 +59,10 @@ void AForm::beSigned( const Bureaucrat& b) {
 }
 
 void AForm::execute(Bureaucrat const & executor) const {
-	try {
-		if (executor.getGrade() > _minExecGrade)
-			throw PermissionError();
-		if (!_signed)
-			throw NotSigned();
-	} catch (std::exception &e) {
-		std::cout << executor.getName() << " couldn't execute " << getName() << ", because form " << getName() << e.what() <<std::endl ;
-		return;
-	}
+	if (executor.getGrade() > _minExecGrade)
+		throw PermissionError();
+	if (!_signed)
+		throw NotSigned();
 	_do();
 }
 

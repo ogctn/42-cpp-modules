@@ -14,7 +14,8 @@ PresidentialPardonForm::PresidentialPardonForm( const PresidentialPardonForm &co
 }
 
 PresidentialPardonForm &PresidentialPardonForm::operator=( const PresidentialPardonForm &b ) {
-	return *this;
+	if ( this == &b) {}
+	return (*this);
 }
 
 PresidentialPardonForm::~PresidentialPardonForm() {

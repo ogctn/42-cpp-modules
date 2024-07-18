@@ -1,4 +1,5 @@
-SRC = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
+SRC  =	main.cpp Bureaucrat.cpp AForm.cpp\
+		ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 NAME = ex02
@@ -22,6 +23,7 @@ all: $(NAME)
 
 clean:
 	@$(RM) $(OBJ_DIR)
+	@$(RM) *_shrubbery
 	@echo "Cleaned object files"
 
 fclean: clean

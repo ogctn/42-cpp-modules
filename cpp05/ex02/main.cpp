@@ -1,45 +1,60 @@
-#include "Bureaucrat.hpp"
-#include "Form.hpp"
-
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int	main() {
-	Bureaucrat	b1("b1", 1);
-	Bureaucrat	b2("b2", 150);
-	Bureaucrat	b3 = Bureaucrat("b3", 20);
-	Form 		f1("f1", 1, 1);
-	Form 		f2("f2", 100, 100);
-	
-	try{ Form 		f3("f3", 0, 100);} catch (std::exception &e) { std::cout << e.what() << std::endl; }
+	Bureaucrat b1("ogcetin", 1);
+	Bureaucrat b2("taybakan", 75);
+	Bureaucrat b3("tnoyan", 150);
 
-	std::cout << b1 << std::endl;
-	std::cout << b2 << std::endl;
-	std::cout << b3 << std::endl;
+	PresidentialPardonForm pf1("target1");
+	RobotomyRequestForm rf1("target2");
+	ShrubberyCreationForm sf1("target1");
+	ShrubberyCreationForm sf2("target2");
 
-	std::cout << f1 << std::endl;
+	std::cout << b1 << "  |  " << b2 << "  |  " << b3 << std::endl << std::endl;
+	std::cout << pf1 << std::endl;
+	std::cout << rf1 << std::endl;
+	std::cout << sf1 << std::endl << std::endl;
 
+	std::cout << "----  1  ----" << std::endl;
 	try {
-		b1.incrementGrade();
+		b3.signForm(pf1);
 	} catch (std::exception &e){
 		std::cout << e.what() << std::endl;
 	}
+	std::cout << "----  2  ----" << std::endl;
 	try {
-		b1.incrementGrade();
-	} catch(std::exception &e) {
+		pf1.execute(b3);
+	} catch (std::exception &e){
 		std::cout << e.what() << std::endl;
 	}
+	std::cout << "----  3  ----" << std::endl;
 	try {
-		f1.beSigned(b1);
-	} catch (std::exception &e) {
+		sf1.execute(b2);
+	} catch (std::exception &e){
 		std::cout << e.what() << std::endl;
 	}
-	try {
-		f1.beSigned(b2);
-	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
-	}
-	try {
-		f1.beSigned(b1);
-	} catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
-	}
+	std::cout << "----  4  ----" << std::endl;
+		b2.signForm(sf1);
+		sf1.execute(b2);
+	std::cout << "----  5  ----" << std::endl;
+		b1.executeForm(sf2);
+		b1.signForm(sf2);
+	std::cout << "----  6  ----" << std::endl;
+		b1.executeForm(sf2);
+	std::cout << "----  7  ----" << std::endl;
+		b1.executeForm(pf1);
+		b1.signForm(pf1);
+		b1.executeForm(pf1);
+	std::cout << "----  8  ----" << std::endl;
+		b1.executeForm(rf1);
+		b1.signForm(rf1);
+		std::cout << std::endl;
+		b1.executeForm(rf1);
+		std::cout << std::endl;
+		b1.executeForm(rf1);
+		std::cout << std::endl;
+		b1.executeForm(rf1);
+
 }

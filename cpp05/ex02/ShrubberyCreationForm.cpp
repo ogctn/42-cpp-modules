@@ -1,10 +1,12 @@
 #include "ShrubberyCreationForm.hpp"
 
 void ShrubberyCreationForm::_do() const {
-	std::ofstream file(_target + "_shrubbery");
-	if (!file.is_open())
+	std::ofstream out_file;
+	std::string fileName = _target + "_shrubbery";
+	out_file.open(fileName.c_str(), std::ios::out);
+	if (!out_file.is_open())
 		throw std::runtime_error("Failed to open file!");
-	file << "⠀⢀⢀⠠⢄⠀⠀⠘⠀⠠⠼⡀⠠⠤⣀⣀⣾⣷⡾⣿⣷⣀⢳⣿⣿⣿⣦⣆⡠⢀⣀⡸⠄⢀⠘⠤⢄⠀⠤⢄⢀⠀⠀⠀⠡⠜⠀⠀⠀\n"
+	out_file << "⠀⢀⢀⠠⢄⠀⠀⠘⠀⠠⠼⡀⠠⠤⣀⣀⣾⣷⡾⣿⣷⣀⢳⣿⣿⣿⣦⣆⡠⢀⣀⡸⠄⢀⠘⠤⢄⠀⠤⢄⢀⠀⠀⠀⠡⠜⠀⠀⠀\n"
 			"⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⢠⠀⠀⢠⣿⣏⠱⢾⡙⢏⠟⡥⢩⠛⣼⠷⢫⡹⡿⢟⢿⣛⡿⣿⣷⣦⣠⣤⡄⠀⠀⡄⠀⠀⡄⢠⠀⠀⠀\n"
 			"⠀⠀⠰⠀⢰⠒⠁⠈⠒⣶⣬⣶⣟⠻⡹⢾⣿⠻⠍⠆⠈⠄⡀⢩⢆⠙⡀⠇⣉⢾⡾⣵⣾⣿⣯⢿⣟⣿⣿⣶⠐⠁⠐⠒⠁⠈⠀⠀⠀\n"
 			"⠀⠀⢀⠀⢀⠀⢂⣰⣟⠏⡿⣿⣟⣳⣕⣻⣦⢋⡔⠀⠁⠠⠐⠈⡌⠀⢠⠐⣊⠲⣱⢻⡾⣽⣻⢿⣾⢟⣿⣿⣿⣤⣄⡀⠆⠸⠀⠀⠀\n"
@@ -30,7 +32,7 @@ void ShrubberyCreationForm::_do() const {
 			"⠀⠈⠀⠀⠘⠀⠀⢀⠀⠀⢠⠂⠀⠀⠃⠈⠀⠀⠐⠀⠀⣾⣿⣿⣿⣿⣿⣿⣀⠀⠀⢡⠀⠀⢀⠀⡀⠈⠀⠈⠀⡀⠀⠀⡀⢠⠀⠀⠀\n"
 			"⠀⠠⢀⠒⢢⠀⠐⠊⠀⠐⠊⠄⠐⠒⡄⣀⣂⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣬⣒⡀⠈⠒⠀⠀⠐⢢⠀⠑⠂⠀⠑⠈⠀⠀⠀\n"
 			"⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠐⠀⠀⠀⠁⠈⢀⠈⠉⡉⠍⠉⡏⠉⠉⠉⠉⠉⢉⠉⠀⢰⠁⠀⠰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠐⠀⠀⠀\n";
-	file.close();
+	out_file.close();
 }
 	
 ShrubberyCreationForm::ShrubberyCreationForm() : AForm("ShrubberyCreationForm", 145, 137), _target("default") {
@@ -43,6 +45,7 @@ ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm &b ) :
 }
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=( const ShrubberyCreationForm &b ) {
+	if ( this == &b ) {}
 	return (*this);
 }
 
