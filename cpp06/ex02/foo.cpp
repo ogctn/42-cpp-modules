@@ -28,15 +28,18 @@ void	identify(Base *p) {
 
 void	identify(Base &p) {
 	try {
-		dynamic_cast<A&>(p);
+		A &t = dynamic_cast<A&>(p);
+		(void)t;
 		std::cout << "type: A" << std::endl;
 	} catch (std::exception &e1) {
 		try {
-			dynamic_cast<B&>(p);
+			B &t = dynamic_cast<B&>(p);
+			(void)t;
 			std::cout << "type: B" << std::endl;
 		} catch (std::exception &e2) {
 			try {
-				dynamic_cast<C&>(p);
+				C &t = dynamic_cast<C&>(p);
+				(void)t;
 				std::cout << "type: C" << std::endl;
 			} catch (std::exception &e3) {
 				std::cout << "Unknown type!" << std::endl;
