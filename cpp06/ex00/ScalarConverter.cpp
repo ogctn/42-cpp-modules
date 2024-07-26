@@ -14,7 +14,7 @@ ScalarConverter &ScalarConverter::operator=(ScalarConverter const &other) {
 
 ScalarConverter::~ScalarConverter() {}
 
-const char*	ScalarConverter::BadInputException::what() const throw() {
+const char*	BadInputException::what() const throw() {
 	return ("Error: Bad input: ");
 }
 
@@ -24,45 +24,49 @@ specials get_type(const std::string &input) {
 		return (my_inf);
 	else if (input == "-inf" || input == "-inff")
 		return (my_minus_inf);
-	else if (input == "nan" || input == "nanf")
+	else if (input == "nan" || input == "nanf")
 		return (my_nan);
 	else
 		return (smt_else);
 }
 
-int countChar(const std::string &str, char c) {
-	int count = 0;
-    for (int i = 0; i < str.length(); ++i) {
-        if (str[i] == c) {
-            count++;
-        }
-    }
-    return (count);
-}
-
-int check_valid_numbers(const std::string &str) {
-	for (int i = 0; i < str.length(); ++i) {
-        if (str[i] != 'f' || str[i] != '.' || str[i] != '-' || str[i] != '+' || !std::isdigit(str[i]))
-			return (1);
-    }
-	return (0);
-}
-
 void check_format(const std::string &input) {
-	if (input.length() == 1 && !std::isdigit(input[0]))
-		throw ScalarConverter::BadInputException();
-	if (check_valid_numbers(input))
-		throw ScalarConverter::BadInputException();
-	if ((countChar(input, '.') > 1 || countChar(input, 'f') > 1))
-		throw ScalarConverter::BadInputException();
-	if (input.find('f') != input.length() - 1)
-		throw ScalarConverter::BadInputException();
-	if (input.find('f') + input.find('.') == 1)
-		throw ScalarConverter::BadInputException();
-	if (input.find('.') == 0 && !std::isdigit(input.at(1)))
-		throw ScalarConverter::BadInputException();
-	if (input.find('f') != f.npos && input.find('.') == input.length() - 2 && input.length() < 3)
-		throw ScalarConverter::BadInputException();
+	short int dot = 0;
+
+	if (input.find_first_not_of("0123456789.f+-") == input.npos)
+		if (input.length() == 1 && std::isalpha(input[0]))
+			throw BadInputException();
+	if (input.find_first_not_of(".f+-") == input.npos)
+		throw BadInputException();
+
+	for (size_t i = 0; i < input.length(); ++i) {
+		if (input[i] == '+' || input[i] == '-'){
+			if (input.length() == 1)
+				throw BadInputException();
+			if (i != 0)
+				throw BadInputException();
+			continue;
+		}
+		if (input[i] == '.') {
+			if (input.length() == 1)
+				throw BadInputException();
+			if (++dot > 1)
+				throw BadInputException();
+			if (input[i + 1] == 'f' && i != 0 && !std::isdigit(input[i - 1]))
+				throw BadInputException();
+			continue;
+		}
+		if (input[i] == 'f') {
+			if (input.length() == 1)
+				throw BadInputException();
+			if (input.length() - 1 != i)
+				throw BadInputException();
+			if (input.length() == 2 && !std::isdigit(input[0]))
+				throw BadInputException();
+			continue;
+		}
+		continue;
+	}
 }
 
 int check_infNan(const std::string &input) {
@@ -94,38 +98,43 @@ int check_infNan(const std::string &input) {
 	return (1);
 }
 
-void print_char(std::string input, float *val) {
-	if (input.length() == 1 && !std::isdigit(input))
-		std::cout << "char: " << static_cast<char>(input[0]) << std::endl;
-	else if (input.length() == 1 && std::isdigit(input))
-		std::cout << "char: Non displayable" << std::endl;
+void print_all(std::string s_val) {
+	double d_val = strtod(s_val.c_str(), NULL);
+
+	std::cout << "char: ";
+	std::cout << "######" << s_val << d_val <<  "######" << std::endl;
+	if (!std::isprint(static_cast<unsigned char>(d_val)))
+		std::cout << "Non displayable" << std::endl;
 	else
-		std::cout << "char: impossible" << std::endl;
-}
+		std::cout << "'" << static_cast<char>(static_cast<int>(d_val)) << "'" << std::endl;
 
-void print_int(std::string input) {
-	try {
-		int i = std::stoi(input);
-	} catch (std::exception &e) {
-		std::cout << "int: impossible" << std::endl;
-		return;
-	}
-	std::cout << "int: " << static_cast<int>(i) << std::endl;
-}
+	std::cout << "int: ";
+	if (d_val > std::numeric_limits<int>::max() || d_val < std::numeric_limits<double>::min())
+		std::cout << "impossible" << std::endl;
+	else
+		std::cout << static_cast<int>(d_val) << std::endl;
 
-void print_float(std::string input) {
+	std::cout << "float: ";
+	if (d_val > std::numeric_limits<float>::max() || d_val < std::numeric_limits<float>::min())
+		std::cout << "impossible" << std::endl;
+	else
+		std::cout << static_cast<float>(d_val) << "f" << std::endl;
 	
+	std::cout << "double: ";
+	if (d_val > std::numeric_limits<double>::max() || d_val < std::numeric_limits<double>::min())
+		std::cout << "impossible" << std::endl;
+	else
+		std::cout << static_cast<float>(d_val) << std::endl;
 }
 
-void print_double(std::string input) {
-	
-}
-
+#include <string>
 std::string get_modied_input(std::string &input) {
 	std::string tmp = input;
 
-	if (tmp.length == 1 && std::isdigit(tmp[0]))
-		return;
+	if (tmp.length() == 1 && std::isdigit(tmp[0])) {
+		std::stringstream ss(tmp);
+		return (ss.str());
+	}
 	if (tmp.find('f') != tmp.npos)
 		tmp.erase(tmp.find('f'));
 	if (tmp.find('.') == 0)
@@ -137,33 +146,14 @@ std::string get_modied_input(std::string &input) {
 
 void ScalarConverter::convert(std::string input) {
 	try {
-		check_format(input) 
-	} catch (ScalarConverter::BadInputException &e) {
-		std::cerr << e.what() << input << std::endl;
+		check_format(input);
+	} catch (std::exception &e) {
+		std::cout << e.what() << input << std::endl;
 		return;
 	}
 	if (check_infNan(input))
 		return;
-
-	std::string tmp = get_modied_input(input);
-
-
 	
+	std::string s_val = get_modied_input(input);
+	print_all(s_val);
 }
-
-
-/*
-Neler gelebilir 
-- inf
-- -inf
-- nan
-- char gelebilir
-- int gelebilir
-- float gelebilir
-- double gelebilir
-
-float ve doublue ayıran şey .f dir.
-
-
-
-*/
