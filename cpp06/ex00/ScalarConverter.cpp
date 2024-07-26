@@ -14,7 +14,7 @@ ScalarConverter &ScalarConverter::operator=(ScalarConverter const &other) {
 
 ScalarConverter::~ScalarConverter() {}
 
-const char*	BadInputException::what() const throw() {
+const char*	ScalarConverter::BadInputException::what() const throw() {
 	return ("Error: Bad input: ");
 }
 
@@ -33,36 +33,27 @@ specials get_type(const std::string &input) {
 void check_format(const std::string &input) {
 	short int dot = 0;
 
-	if (input.find_first_not_of("0123456789.f+-") == input.npos)
-		if (input.length() == 1 && std::isalpha(input[0]))
-			throw BadInputException();
-	if (input.find_first_not_of(".f+-") == input.npos)
-		throw BadInputException();
+	if (input.length() > 1 && input.find_first_not_of("0123456789.+-f") != input.npos)
+		throw ScalarConverter::BadInputException();
 
 	for (size_t i = 0; i < input.length(); ++i) {
-		if (input[i] == '+' || input[i] == '-'){
-			if (input.length() == 1)
-				throw BadInputException();
+		if (input[i] == '+' || input[i] == '-') {
 			if (i != 0)
-				throw BadInputException();
+				throw ScalarConverter::BadInputException();
 			continue;
 		}
 		if (input[i] == '.') {
-			if (input.length() == 1)
-				throw BadInputException();
 			if (++dot > 1)
-				throw BadInputException();
+				throw ScalarConverter::BadInputException();
 			if (input[i + 1] == 'f' && i != 0 && !std::isdigit(input[i - 1]))
-				throw BadInputException();
+				throw ScalarConverter::BadInputException();
 			continue;
 		}
 		if (input[i] == 'f') {
-			if (input.length() == 1)
-				throw BadInputException();
 			if (input.length() - 1 != i)
-				throw BadInputException();
+				throw ScalarConverter::BadInputException();
 			if (input.length() == 2 && !std::isdigit(input[0]))
-				throw BadInputException();
+				throw ScalarConverter::BadInputException();
 			continue;
 		}
 		continue;
@@ -99,35 +90,40 @@ int check_infNan(const std::string &input) {
 }
 
 void print_all(std::string s_val) {
-	double d_val = strtod(s_val.c_str(), NULL);
+	double	d_val = strtod(s_val.c_str(), NULL);
+	int		precision = 1;
+
+	if (s_val.length() == 1 && !std::isdigit(s_val[0]))
+		d_val = s_val.at(0);
+
+	if (s_val.find('.') != s_val.npos)
+		precision =  s_val.length() - s_val.find('.') - 1;
 
 	std::cout << "char: ";
-	std::cout << "######" << s_val << d_val <<  "######" << std::endl;
-	if (!std::isprint(static_cast<unsigned char>(d_val)))
+	if (!std::isprint(static_cast<char>(d_val)) || d_val < 0)
 		std::cout << "Non displayable" << std::endl;
 	else
 		std::cout << "'" << static_cast<char>(static_cast<int>(d_val)) << "'" << std::endl;
 
 	std::cout << "int: ";
-	if (d_val > std::numeric_limits<int>::max() || d_val < std::numeric_limits<double>::min())
+	if (d_val > std::numeric_limits<int>::max() || d_val < std::numeric_limits<int>::min())
 		std::cout << "impossible" << std::endl;
 	else
 		std::cout << static_cast<int>(d_val) << std::endl;
 
 	std::cout << "float: ";
-	if (d_val > std::numeric_limits<float>::max() || d_val < std::numeric_limits<float>::min())
+	if (d_val > std::numeric_limits<float>::max() || d_val < -std::numeric_limits<float>::max())
 		std::cout << "impossible" << std::endl;
 	else
-		std::cout << static_cast<float>(d_val) << "f" << std::endl;
-	
+		std::cout << std::fixed << std::setprecision(precision) << static_cast<float>(d_val) << "f" << std::endl;
+
 	std::cout << "double: ";
-	if (d_val > std::numeric_limits<double>::max() || d_val < std::numeric_limits<double>::min())
+	if (d_val > std::numeric_limits<double>::max() || d_val < -std::numeric_limits<double>::max() )
 		std::cout << "impossible" << std::endl;
 	else
-		std::cout << static_cast<float>(d_val) << std::endl;
+		std::cout << std::fixed << std::setprecision(precision) <<static_cast<double>(d_val) << std::endl;
 }
 
-#include <string>
 std::string get_modied_input(std::string &input) {
 	std::string tmp = input;
 
@@ -135,25 +131,27 @@ std::string get_modied_input(std::string &input) {
 		std::stringstream ss(tmp);
 		return (ss.str());
 	}
-	if (tmp.find('f') != tmp.npos)
-		tmp.erase(tmp.find('f'));
-	if (tmp.find('.') == 0)
-		tmp.insert(0, "0");
-	if (tmp.find('.') == tmp.length() - 1)
-		tmp.erase(tmp.find('.'));
+	if (tmp.length() > 1) {
+		if (tmp.find('f') != tmp.npos)
+			tmp.erase(tmp.find('f'));
+		if (tmp.find('.') == 0)
+			tmp.insert(0, "0");
+		if (tmp.find('.') == tmp.length() - 1)
+			tmp.erase(tmp.find('.'));
+	}
 	return (tmp);
 }
 
 void ScalarConverter::convert(std::string input) {
+	if (check_infNan(input))
+		return;
 	try {
 		check_format(input);
 	} catch (std::exception &e) {
-		std::cout << e.what() << input << std::endl;
+		std::cout << e.what() << "\"" << input << "\"" << std::endl;
 		return;
 	}
-	if (check_infNan(input))
-		return;
-	
+
 	std::string s_val = get_modied_input(input);
 	print_all(s_val);
 }

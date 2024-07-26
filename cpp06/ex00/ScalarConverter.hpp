@@ -5,6 +5,7 @@
 # include <cstdlib>		// std::strtod()
 # include <limits>		// std::numeric_limits
 # include <sstream>		// std::stringstream
+# include <iomanip>      // std::setprecision
 # include <exception>
 
 enum specials {
@@ -26,11 +27,11 @@ class ScalarConverter
 	public:
 		static void	convert(std::string input);
 
+	class BadInputException: public std::exception {
+		virtual const char*	what() const throw();
+	};
 };
 
-class BadInputException: public std::exception {
-	virtual const char*	what() const throw();
-};
 
 
 #endif
