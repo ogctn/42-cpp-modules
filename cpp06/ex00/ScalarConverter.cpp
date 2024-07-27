@@ -18,7 +18,7 @@ const char*	ScalarConverter::BadInputException::what() const throw() {
 	return ("Error: Bad input: ");
 }
 
-specials get_type(const std::string &input) {
+static specials get_type(const std::string &input) {
 	if (input == "inf" || input == "+inf" ||
 			input == "inff" || input == "+inff")
 		return (my_inf);
@@ -30,7 +30,7 @@ specials get_type(const std::string &input) {
 		return (smt_else);
 }
 
-void check_format(const std::string &input) {
+static void check_format(const std::string &input) {
 	short int dot = 0;
 
 	if (input.length() > 1 && input.find_first_not_of("0123456789.+-f") != input.npos)
@@ -60,7 +60,7 @@ void check_format(const std::string &input) {
 	}
 }
 
-int check_infNan(const std::string &input) {
+static int check_infNan(const std::string &input) {
 	switch (get_type(input)) {
 		case my_inf:
 			std::cout << "char: impossible" << std::endl;
@@ -89,7 +89,7 @@ int check_infNan(const std::string &input) {
 	return (1);
 }
 
-void print_all(std::string s_val) {
+static void print_all(std::string s_val) {
 	double	d_val = strtod(s_val.c_str(), NULL);
 	int		precision = 1;
 
@@ -124,7 +124,7 @@ void print_all(std::string s_val) {
 		std::cout << std::fixed << std::setprecision(precision) <<static_cast<double>(d_val) << std::endl;
 }
 
-std::string get_modied_input(std::string &input) {
+static std::string get_modied_input(std::string &input) {
 	std::string tmp = input;
 
 	if (tmp.length() == 1 && std::isdigit(tmp[0])) {

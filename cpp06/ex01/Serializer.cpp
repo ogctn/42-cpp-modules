@@ -1,10 +1,8 @@
 # include "Serializer.hpp"
 
-Serializer::Serializer() {
-}
+Serializer::Serializer() {}
 
-Serializer::~Serializer() {
-}
+Serializer::~Serializer() {}
 
 Serializer::Serializer(const Serializer &other) {
 	if (this != &other) {
@@ -24,6 +22,3 @@ uintptr_t Serializer::serialize(Data* ptr) {
 Data* Serializer::deserialize(uintptr_t raw) {
 	return ( reinterpret_cast<Data *>(raw) );
 }
-
-Base &a = dym_cast<Base>(b);
-Base *b = dym_cast<Base>(c);

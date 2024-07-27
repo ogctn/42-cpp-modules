@@ -23,7 +23,6 @@ class ScalarConverter
 		ScalarConverter &operator=(ScalarConverter const &other);
 		~ScalarConverter();
 
-
 	public:
 		static void	convert(std::string input);
 

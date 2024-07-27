@@ -30,14 +30,14 @@ int main() {
 		deserializedData = Serializer::deserialize(Serializer::serialize(&data));
 
 		std::cout << "Data address after serialization:  " << deserializedData << std::endl;
+		printData(deserializedData);
+		std::cout << "\n--> Changing data:  " << deserializedData << std::endl;
 		const_cast<std::string &>(deserializedData->s) = "__ogctn__";
 		deserializedData->i = 17; deserializedData->d = 0.3;
 		printData(deserializedData);
 	}
-
-	return 0;
+	return (0);
 }
-
 
 void printData(Data *data)
 {
