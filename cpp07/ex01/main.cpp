@@ -15,11 +15,7 @@ void print( T const & x ) { std::cout << x << std::endl; return; }
 
 
 void my_toupper(std::string &s);
-
-void stringLower(std::string &s) {
-	for (size_t i = 0; i < s.length(); i++)
-		s[i] = std::tolower(s[i]);
-}
+void stringLower(std::string &s);
 
 
 int	main() {
@@ -29,6 +25,10 @@ int	main() {
 
 	const unsigned int increment = 10;
 
+	std::cout << "--------------------> 0" << std::endl;
+	void (*f_null)(int &e) = NULL;
+	iter(i_arr, arr_size, f_null);
+	print_arr(i_arr, arr_size);
 	std::cout << "--------------------> 1" << std::endl;
 	s_fun<int, increment> f_i;
 	iter(i_arr, arr_size, f_i);	// iter<s_fun, int, 10>(i_arr, size, f_i);
@@ -46,10 +46,12 @@ int	main() {
 
 	std::cout << "--------------------> 4" << std::endl;
 	print_arr(s_arr, s_size);
-	s_fun<char *, 32> f_s;
 	for (size_t i = 0; i < s_size; i++)
 		iter(s_arr, 2, stringLower);
 	print_arr(s_arr, s_size);
+	
+	std::cout << "--------------------> 5" << std::endl;
+	iter(&s_arr[2], 2, print);
 
 	std::cout << "--------------------> EVO TEST" << std::endl;
 	int tab[] = { 0, 1, 2, 3, 4 };
@@ -58,8 +60,6 @@ int	main() {
 	iter( tab, 5, print );
 	iter( tab2, 5, print );
 	std::cout << "------------------" << std::endl;
-
-
 
 	return (0);
 }
