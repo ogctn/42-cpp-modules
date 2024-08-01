@@ -1,7 +1,7 @@
-SRC = main.cpp ScalarConverter.cpp
+SRC = main.cpp
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
-NAME = convert
+NAME = ex02
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic

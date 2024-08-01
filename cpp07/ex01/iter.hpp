@@ -3,9 +3,6 @@
 
 # include <iostream>
 
-template <typename T>
-void f1(T &elem) { elem += 3; }
-
 template <typename T, int INC = 3>
 struct s_fun{
 	void operator()(T &elem) { elem += INC; }
