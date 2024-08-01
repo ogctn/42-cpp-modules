@@ -1,4 +1,4 @@
-SRC = main.cpp ScalarConverter.cpp
+SRC = main.cpp
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 NAME = ex01
@@ -26,6 +26,13 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+
+run: re
+	@make clean
+	@echo "Runing $(NAME):"	
+	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
+	@./$(NAME)
+	@echo "\n________________________________________"
 
 re: fclean all
 
