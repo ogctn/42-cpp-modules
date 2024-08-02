@@ -4,7 +4,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 NAME = ex02
 
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -I.
 RM = rm -rf
 MKDIR_P = mkdir -p
 
@@ -26,6 +26,13 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+
+run: re
+	@make clean
+	@echo "Runing $(NAME):"	
+	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
+	@./$(NAME)
+	@echo "\n________________________________________"
 
 re: fclean all
 
