@@ -13,8 +13,8 @@ Array<T>::Array(unsigned int n, T val) : _arr(new T[n]), _size(n) {
 }
 
 template <typename T>
-Array<T>::Array(const Array & src) : _arr(src._size), _size(src._size) {
-	if (*this != src) {
+Array<T>::Array(const Array & src) : _arr(src._arr), _size(src._size) {
+	if (this != &src) {
 		_arr = new T[_size];
 	for (size_t i = 0; i < _size; i++)
 		_arr[i] = src._arr[i];
@@ -30,15 +30,15 @@ Array<T>::~Array() {
 
 template <typename T>
 Array<T>	&Array<T>::operator=(const Array &src) {
-	if (*this == src)
-		return (this);
+	if (this == &src)
+		return (*this);
 	if (_arr)
 		delete []_arr;
 	_size = src._size;
 	_arr = new T[_size];
 	for (size_t i = 0; i < _size; i++)
 		_arr[i] = src._arr[i];
-	return (this);
+	return (*this);
 }
 
 template <typename T>
@@ -83,4 +83,3 @@ std::ostream	&operator<<(std::ostream &os, const Array<T> &src) {
 	os << "]";
 	return (os);
 } 
-

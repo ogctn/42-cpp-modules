@@ -12,7 +12,13 @@ int	main() {
 	std::cout << s1 << std::endl;
 	std::cout << s2 << std::endl;
 	std::cout << "---------------------------" << std::endl;
-	i1 = i2;
-	std::cout << i1 << std::endl;
+	Array<int> i3 = i2;
+	Array<int> i4(24);
+	i4 = i3;
+	std::cout << i3 << std::endl;
+	std::cout << i4 << std::endl;
+
+	Array<std::string> s3(s2);
+	std::cout << s3 << std::endl;
 
 }

@@ -40,7 +40,6 @@ void iter(T *ptr, int N, void (*fnc)(T const &)){
 		fnc(ptr[i]);
 }
 
-
 template <template <typename,int> class Func, typename T, int INC>
 void iter(T *ptr, int N, Func<T, INC> fnc){
 	if (N <= 0 || !ptr)
@@ -49,7 +48,7 @@ void iter(T *ptr, int N, Func<T, INC> fnc){
 		fnc(ptr[i]);
 }
 
-// --------------------------------------------------------
+/* ----------------------------------------- */
 void my_toupper(std::string &s) {
 	for (size_t i = 0; i < s.length(); i++) {
 		s[i] = std::toupper(s[i]);
@@ -67,5 +66,6 @@ void print_arr(T *arr, int size) {
 		std::cout << arr[i] << " ";
 	std::cout << std::endl;
 }
+/* ----------------------------------------- */
 
 #endif

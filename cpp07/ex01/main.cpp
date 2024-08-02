@@ -13,10 +13,10 @@ std::ostream & operator<<( std::ostream & o, Awesome const & rhs ) { o << rhs.ge
 template< typename T >
 void print( T const & x ) { std::cout << x << std::endl; return; }
 
-
+/* ------------------------------ */ 
 void my_toupper(std::string &s);
 void stringLower(std::string &s);
-
+/* ------------------------------ */
 
 int	main() {
 

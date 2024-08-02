@@ -27,13 +27,13 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 
+re: fclean all
+
 run: re
 	@make clean
 	@echo "Runing $(NAME):"	
 	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
 	@./$(NAME)
 	@echo "\n________________________________________"
-
-re: fclean all
 
 .PHONY: all clean fclean re
