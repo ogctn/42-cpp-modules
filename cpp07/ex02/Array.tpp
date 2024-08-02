@@ -43,7 +43,14 @@ Array<T>	&Array<T>::operator=(const Array &src) {
 
 template <typename T>
 T	&Array<T>::operator[](unsigned int idx) {
-	if (idx <= _size)
+	if (idx >= _size)
+		throw (std::exception());
+	return (_arr[idx]);
+}
+
+template <typename T>
+const T	&Array<T>::operator[](unsigned int idx) const {
+	if (idx >= _size)
 		throw (std::exception());
 	return (_arr[idx]);
 }
@@ -54,27 +61,13 @@ size_t	Array<T>::size() const {
 }
 
 template <typename T>
-void	Array<T>::setElement(unsigned int idx, T val) {
-	if (idx >= size())
-		throw std::exception();
-	_arr[idx] = val;
-}
-
-template <typename T>
-T	Array<T>::getElement(unsigned int idx) const {
-	if (idx >= size())
-		throw std::exception();
-	return (_arr[idx]);
-}
-
-template <typename T>
 std::ostream	&operator<<(std::ostream &os, const Array<T> &src) {
 	std::ostringstream ss;
 	os << "[";
 	if (src.size() > 0)
 	{
 		for (size_t i = 0; i < src.size(); i++) {
-			ss << src.getElement(i);
+			ss << src[i];
 			if (i < src.size() - 1)
 				ss << ", ";
 		}

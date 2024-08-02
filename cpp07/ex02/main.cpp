@@ -19,6 +19,14 @@ int	main() {
 	std::cout << i4 << std::endl;
 
 	Array<std::string> s3(s2);
+	s3[1] = "oguzalpcetin";
 	std::cout << s3 << std::endl;
+	
+	try {
+		std::cout << i4[-4] << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "bad index, index should be in the range of [0 "
+		<< i4.size() - 1  << "]." << std::endl;
+	}
 
 }

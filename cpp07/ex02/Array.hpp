@@ -19,11 +19,10 @@ class Array {
 		Array &operator=(const Array &);
 
 		T &operator[](unsigned int);
+		const T &operator[](unsigned int) const;
 
 		size_t	size() const;
-		void	setElement(unsigned int, T);
-		T		getElement(unsigned int) const ;
-		
+
 };
 
 template <typename T>
