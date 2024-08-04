@@ -31,6 +31,7 @@ re: fclean all
 
 run: re
 	@make clean
+	@clear
 	@echo "Runing $(NAME):"	
 	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
 	@./$(NAME)
