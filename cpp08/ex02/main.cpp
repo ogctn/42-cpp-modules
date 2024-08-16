@@ -3,20 +3,18 @@
 #include <iostream>
 #include <list>
 
-int mStack(void);
-int list(void);
-
+int MutantStackTest(void);
+int ListValidation(void);
 
 int	main() {
 	
-	mStack();
-	list();
+	std::cout << "|--....MUTANT STACK....--|" << std::endl;
+	MutantStackTest();
+	std::cout << "|--........LIST........--|" << std::endl;
+	ListValidation();
 }
 
-
-
-int mStack(void) {
-	std::cout << "-- DEFAULT TEST --" << std::endl;
+int MutantStackTest(void) {
 	MutantStack<int> mstack;
 	mstack.push(5);
 	mstack.push(17);
@@ -38,11 +36,10 @@ int mStack(void) {
 	++it;
 	}
 	std::stack<int> s(mstack);
-	return 1;
+	return 0;
 }
 
-int list(void) {
-	std::cout << "-- LIST TEST --" << std::endl;
+int ListValidation(void) {
 	std::list<int> list;
 	list.push_back(5);
 	list.push_back(17);
@@ -60,9 +57,10 @@ int list(void) {
 	--it;
 	while (it != ite)
 	{
-	std::cout << *it << std::endl;
-	++it;
+		std::cout << *it << std::endl;
+		++it;
 	}
-	std::list<int> s(list);
-	return 1;
+	std::list<int> l(list);
+	return 0;
 }
+
