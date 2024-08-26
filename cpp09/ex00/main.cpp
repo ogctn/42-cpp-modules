@@ -20,10 +20,12 @@ int	main(int ac, char **av) {
 	}
 
 	BitcoinExchange exchange(av[1]);
-	// exchange.printData();
+	exchange.printPriceData();
 
 	// exchange.readCSV(av[1]);
 	
 
 	return (0);
 }
+
+

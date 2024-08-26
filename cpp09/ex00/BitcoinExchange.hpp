@@ -11,7 +11,7 @@
 
 class BitcoinExchange {
 	private:
-		std::vector<std::string>	_data;
+		std::vector<std::string>	_priceData;
 		std::vector<std::string>	_input;
 		std::string					_inputFileName;
 
@@ -22,8 +22,8 @@ class BitcoinExchange {
 		BitcoinExchange &operator=(const BitcoinExchange &other);
 		~BitcoinExchange();
 
-		void	loadData();
-		void	printData();
+		void	loadPriceData();
+		void	printPriceData();
 
 
 };
