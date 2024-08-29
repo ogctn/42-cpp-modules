@@ -1,5 +1,15 @@
 #include "BitcoinExchange.hpp"
 
+struct ContainsSubstring {
+    std::string find;
+
+    ContainsSubstring(const std::string& value) : find(value) {}
+
+    bool operator()(const std::string& str) const {
+        return (str.find(find) != std::string::npos);
+    }
+};
+
 BitcoinExchange::BitcoinExchange() { readData(DATA_CSV, _priceData, ','); }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) {
@@ -16,20 +26,60 @@ BitcoinExchange::~BitcoinExchange() {}
 
 BitcoinExchange::BitcoinExchange(std::string dataset) { readData(dataset, _priceData, ','); }
 
-std::vector<std::string>	BitcoinExchange::getPriceData() const { return _priceData; }
-std::vector<std::string>	BitcoinExchange::getInput() const { return _input; }
-std::vector<std::string>	BitcoinExchange::getResult() const { return _result; }
-
-template <typename From, typename To>
-To	_converter(const From &from) {
+template <typename T>
+T	_stoval(const std::string &from) {
 	std::stringstream ss(from);
 	
-	To converted;
+	T converted;
 	ss >> converted;
 	if (ss.fail())
 		throw std::invalid_argument("Invalid argument");
 	return (converted);
 }
+
+std::vector<std::string>	BitcoinExchange::getPriceData() const { return _priceData; }
+std::vector<std::string>	BitcoinExchange::getInput() const { return _input; }
+std::vector<std::string>	BitcoinExchange::getResult() const { return _result; }
+
+std::string BitcoinExchange::getLineByFind(const std::vector<std::string> &vec, const std::string &find) const {
+	ContainsSubstring pred(find);
+
+	std::vector<std::string>::const_iterator it = std::find_if(vec.cbegin(), vec.cend(), pred);
+	if (it != vec.cend())
+		return (*it);
+	return ("");
+}
+
+std::string	BitcoinExchange::parseDate(const std::string &line) const {
+
+	std::string tmp;
+	size_t delim_pos;
+
+	std::tm d;
+	memset(&d, 0, sizeof(d));
+	delim_pos = line.find_first_of("-", 0);
+	delim_pos = line.find_first_of("-", delim_pos + 1);
+	delim_pos = line.find_first_not_of("0123456789", delim_pos + 1);
+
+	tmp = line.substr(0, delim_pos);
+	if (strptime(tmp.c_str(), "%Y-%m-%d", &d) == NULL)
+		tmp = "";
+	return (tmp);
+}
+
+float	BitcoinExchange::parseVal(const std::string &line) const {
+
+	std::string tmp;
+	size_t delim_pos;
+
+	delim_pos = line.find_first_of("-", 0);
+	delim_pos = line.find_first_of("-", delim_pos + 1);
+	delim_pos = line.find_first_not_of("0123456789", delim_pos + 1);
+
+	tmp = line.substr(delim_pos + 1, line.size() - delim_pos - 1);
+	return (_stoval<float>(tmp));
+}
+
 void	clear_wspace(std::string &s) {
 	size_t i = 0;
 
@@ -38,17 +88,6 @@ void	clear_wspace(std::string &s) {
 		if (i != std::string::npos)
 			s.erase(i, 1);
 	}
-}
-
-std::string	getDate() {
-	time_t		raw = std::time(0);
-	struct tm	tstruct = *std::localtime(&raw);
-	char		buf[80];
-
-	memset(buf, 0, sizeof(buf));
-	std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tstruct);
-
-	return (buf);
 }
 
 bool	checkFloatFormat(std::string str) {
@@ -130,7 +169,7 @@ std::string invalidFormat(std::string &line, char delimiter) {
 			return("# Bad format, check after delimiter.");
 
 		try {
-			float value = _converter<std::string, float>(tmp);
+			float value = _stoval<float>(tmp);
 			if (value < 0)
 				return("# Value must be positive.");
 			if (delimiter == '|' && value > 1000)
@@ -139,20 +178,18 @@ std::string invalidFormat(std::string &line, char delimiter) {
 			return ("# Bad format, check after delimiter.");
 		}
 
-		
-
 		return ("");
 }
 
 int	fillData(std::vector<std::string> &data, char delimiter, std::vector<std::string> &result) {
 	
 	if (data.empty() || data.size() < 2)
-		return (std::cout << "# No data to import\n", 1);
+		return (std::cout << "# No data to import", 1);
 
 	if (delimiter == ',' && data[0] != "date,exchange_rate")
-		return (std::cout << "# First line must be \"date,exchange_rate\"\n", 1);
+		return (std::cout << "# First line must be \"date,exchange_rate\"", 1);
 	if (delimiter == '|' && data[0] != "date | value")
-		return (std::cout << "# First line must be \"date | value\"\n", 1);
+		return (std::cout << "# First line must be \"date | value\"", 1);
 
 	std::string res;
 	size_t 		delim_pos;
@@ -173,15 +210,16 @@ int	fillData(std::vector<std::string> &data, char delimiter, std::vector<std::st
 		}
 		else
 			res = data[i].substr(0, delim_pos) + " => " + data[i].substr(delim_pos + 1, data[i].size() - delim_pos - 1) + " = ";
-		
+
 		if (delimiter == '|')
 			result.push_back(res);
-		
+
 	}
 	return (0);
 }
 
 void	BitcoinExchange::readData(std::string src, std::vector<std::string> &dest, char delimiter) {
+
 	std::ifstream src_file(src);
 	if (!src_file.is_open()) {
 		std::cerr << "error: " << strerror(errno) << std::endl;
@@ -207,67 +245,78 @@ void	BitcoinExchange::readData(std::string src, std::vector<std::string> &dest, 
 			it = dest.erase(it);
 		else
 			++it;
-	}	
+	}
 }
 
 void	BitcoinExchange::printData(const std::vector<std::string> &data) {
+
 	if (data.empty()) {
-		std::cerr << "error: no data to print." << std::endl;
+		std::cerr << "No data to print." << std::endl;
 		return;
 	}
-	for (std::vector<std::string>::const_iterator it = data.begin(); it != data.end(); it++) {
+	for (std::vector<std::string>::const_iterator it = data.begin(); it != data.end(); it++)
 		std::cout << *it << std::endl;
-	}
+
 }
 
-float BitcoinExchange::findClosest(const std::string &find) const {
-	t_date		date;
+float BitcoinExchange::findClosestPrice(const std::string &res_line) const {
+return (2);
+/* 	t_date		date;
 	std::string	tmp;
-	double		value;
 	std::stringstream tmp_ss;
+	float		value, closest=0;//, diff, tmp_diff;
+	size_t 		p1, p2;
 
-	float		closest = 0;
-	// float		diff = 0;
-	// float		tmp_diff = 0;
+	tmp = parseDate(res_line);
+	date.year = d.tm_year + 1900;	date.month = d.tm_mon + 1;	date.day = d.tm_mday;
 
-	std::tm d;
-	memset(&d, 0, sizeof(d));
-	if (strptime(find.substr(0, 10).c_str(), "%Y-%m-%d", &d) == NULL || !dateExists(find.substr(0, 10)))
-		return (std::cerr << "error: invalid date format." << std::endl, -1);
 
-	date.year = d.tm_year + 1900;
-	date.month = d.tm_mon + 1;
-	date.day = d.tm_mday;
+	std::vector<std::string>::const_iterator it;
+	it = std::find(_priceData.begin(), _priceData.end(), tmp);
+	if (it != _priceData.end()) {
+		p1 = it->find_first_of(",");
+		tmp = it->substr(p1 + 1, it->size() - p1 - 1);
+		closest = _stoval<float>(tmp);
+	}
+
 	try {
-		value = _converter<std::string, double>(find.substr(11, find.size() - 11));
+		p1 = res_line.find_first_of(">") + 2;
+		p2 = res_line.find_first_of("=", 12) - 1;
+		tmp = res_line.substr(p1, p2 - p1);;
+		value = _stoval<double>(tmp);
+		return (closest * value);
 	} catch (std::invalid_argument &e) {
 		return (std::cerr << "error: invalid value format." << std::endl, -1);
 	}
-
-
-	
-	for (size_t i = 0; i < getPriceData().size(); ++i) {
+	// for (size_t i = 0; i < getPriceData().size(); ++i) {
 		
-	}
+	// }
 
-	return (closest);
+	return (closest); */
 }
 
 void	BitcoinExchange::calculate(const std::string &input_file) {
-	std::vector<std::string>	result;
-	float closest;
+
+	float closest=0;
+	size_t 		p1, p2;
+	std::string str_val;
 
 	readData(input_file, _input, '|');
 
-	printData(getResult());
-exit(1);
-	closest = findClosest(_input[1]);
-
-	for (size_t i = 0; i < _input.size(); ++i) {
-		if (_input[i].empty())
+	std::vector<std::string>::iterator it;
+	for (it = _result.begin(); it != _result.end(); ++it) {
+		
+		if ((*it).find_first_of("#error") != std::string::npos)
 			continue;
-		closest = findClosest(_input[i]);
 
+		closest = findClosestPrice(*it);
+		if (closest != -1) {
+			p1 = it->find_first_of(">") + 2;
+			p2 = it->find_first_of("=", 12) - 1;
+			str_val = it->substr(p1, p2 - p1);
+			it->append(std::to_string(closest * _stoval<float>(str_val)));
+		}
 	}
+	
 }
 

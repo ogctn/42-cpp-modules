@@ -7,8 +7,10 @@
 # include <vector>
 # include <cerrno>
 # include <time.h>
+# include <algorithm>
 
 # define DATA_CSV "a.csv"
+
 
 typedef struct	s_date {
 	int	year;
@@ -35,12 +37,15 @@ class BitcoinExchange {
 		std::vector<std::string>	getInput() const;
 		std::vector<std::string>	getResult() const;
 		std::string					getDate() const;
+		std::string					getLineByFind(const std::vector<std::string> &vec, const std::string &date) const;
+		std::string					parseDate(const std::string &line) const;
+		float						parseVal(const std::string &line) const;
 
 		void	readData(std::string src, std::vector<std::string> &dest, char delimiter);
 		void	printData(const std::vector<std::string> &data);
 		
 		void	calculate(const std::string &input_file);
-		float	findClosest(const std::string &find) const; 
+		float	findClosestPrice(const std::string &find) const; 
 
 };
 

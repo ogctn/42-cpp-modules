@@ -5,11 +5,17 @@ int	main(int ac, char **av) {
 		std::cerr << "usage: ./bitcoin <file_name>" << std::endl;
 		return (1);
 	}
-(void)av;
-	BitcoinExchange exchange;
-	// exchange.printData(exchange.getPriceData());
-	exchange.calculate(av[1]);
 
+
+	BitcoinExchange exchange;
+
+	exchange.printData(exchange.getPriceData());
+	std::cout << "--------PRICE ENDS--------" << std::endl;
+	exchange.calculate(av[1]);
+	exchange.printData(exchange.getInput());
+	std::cout << "--------INPUT ENDS--------" << std::endl;
+	exchange.getResult();
+	std::cout << "--------RESULT ENDS--------" << std::endl;
 
 	return (0);
 }
