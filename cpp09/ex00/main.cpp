@@ -6,18 +6,10 @@ int	main(int ac, char **av) {
 		return (1);
 	}
 
-
 	BitcoinExchange exchange;
-
-	exchange.printData(exchange.getPriceData());
-	std::cout << "--------PRICE ENDS--------" << std::endl;
 	exchange.calculate(av[1]);
-	exchange.printData(exchange.getInput());
-	std::cout << "--------INPUT ENDS--------" << std::endl;
-	exchange.getResult();
-	std::cout << "--------RESULT ENDS--------" << std::endl;
+	exchange.printData(exchange.getResult());
 
 	return (0);
 }
-
 

@@ -5,12 +5,15 @@
 # include <fstream>
 # include <sstream>
 # include <vector>
+# include <cstdlib> 
+# include <cstring>
+# include <string>
 # include <cerrno>
-# include <time.h>
+# include  <limits>
+# include <ctime>
 # include <algorithm>
 
-# define DATA_CSV "a.csv"
-
+# define DATA_CSV "btc.csv"
 
 typedef struct	s_date {
 	int	year;
@@ -23,6 +26,7 @@ std::string	getDate();
 class BitcoinExchange {
 	private:
 		std::vector<std::string>	_priceData;
+		std::vector<long>			_dateLong;
 		std::vector<std::string>	_input;
 		std::vector<std::string>	_result;
 
@@ -41,8 +45,9 @@ class BitcoinExchange {
 		std::string					parseDate(const std::string &line) const;
 		float						parseVal(const std::string &line) const;
 
-		void	readData(std::string src, std::vector<std::string> &dest, char delimiter);
-		void	printData(const std::vector<std::string> &data);
+		void	readData(std::string src, char delimiter);
+		int		fillData(std::vector<std::string> &data, char delimiter);
+		void	printData(const std::vector<std::string> &vec) const;
 		
 		void	calculate(const std::string &input_file);
 		float	findClosestPrice(const std::string &find) const; 

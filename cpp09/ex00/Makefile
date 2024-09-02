@@ -34,7 +34,7 @@ run: re
 	@clear
 	@echo "Runing $(NAME):"	
 	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
-	@./$(NAME)
+	@./$(NAME) input.txt
 	@echo "\n________________________________________"
 
 .PHONY: all clean fclean re
