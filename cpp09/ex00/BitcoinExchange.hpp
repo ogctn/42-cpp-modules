@@ -7,9 +7,10 @@
 # include <vector>
 # include <cstdlib> 
 # include <cstring>
+
 # include <string>
 # include <cerrno>
-# include  <limits>
+# include <limits>
 # include <ctime>
 # include <algorithm>
 
@@ -26,7 +27,7 @@ std::string	getDate();
 class BitcoinExchange {
 	private:
 		std::vector<std::string>	_priceData;
-		std::vector<long>			_dateLong;
+		std::vector<int>			_dateInt;
 		std::vector<std::string>	_input;
 		std::vector<std::string>	_result;
 
@@ -50,8 +51,8 @@ class BitcoinExchange {
 		void	printData(const std::vector<std::string> &vec) const;
 		
 		void	calculate(const std::string &input_file);
-		float	findClosestPrice(const std::string &find) const; 
-
+		float	findClosestPrice(const std::string &find); 
+		float	getPrice(std::string line);
 };
 
 
