@@ -87,8 +87,8 @@ std::string getError(std::string line, char delimiter) {
 	tmp = line.substr(delim_pos + 1, line.size() - delim_pos - 1);
 	if (!isValidFloatFormat(tmp))
 		return("# Bad format, check after delimiter.");
-	if (tmp.size() > 38)
-		return("# Value is too big.");
+	if (tmp.size() > 46)
+		return("# Check after delimiter, cant handle value.");
 
 	val = _stoval<float>(tmp);
 	if (val < 0)
@@ -106,8 +106,13 @@ int	BitcoinExchange::fillData(std::vector<std::string> &data, char delimiter) {
 	pos = allEmptyControl(data, delimiter);
 	if (pos > 0)
 		return(pos);
-	
-	for (size_t i = 1; i < data.size(); ++i) {
+
+	pos = 0;
+	while (isEmptyOrWspace(data[pos]))
+		++pos;
+	++pos;
+
+	for (size_t i = pos; i < data.size(); ++i) {
 		clear_wspace(data[i]);
 		if (data[i].empty())
 			continue;

@@ -98,15 +98,18 @@ bool	isEmptyOrWspace(const std::vector<std::string> &data, size_t begin) {
 int	allEmptyControl(std::vector<std::string> &data, char delimiter) {
 	if (data.empty())
 		return (std::cout << "# No data to import", 1);
-	clear_wspace(data[0]);
-	if (isEmptyOrWspace(data[0]))
+	size_t i = 0;
+	while (isEmptyOrWspace(data[i]))
+		++i;
+	if (i == data.size())
 		return (std::cout << "# No data to import", 1);
-	if (delimiter == ',' && data[0] != "date,exchange_rate")
-		return (std::cout << "# First line must be \"date,exchange_rate\"", 1);
-	if (delimiter == '|' && data[0] != "date|value")
-		return (std::cout << "# First line must be \"date | value\"", 1);
-	if (isEmptyOrWspace(data, 1))
-		return (std::cout << "# No data to import", 2);
+	clear_wspace(data[i]);
+	if (delimiter == ',' && data[i] != "date,exchange_rate")
+		return (std::cout << "# First line must be \"date,exchange_rate\"", i + 1);
+	if (delimiter == '|' && data[i] != "date|value")
+		return (std::cout << "# First line must be \"date | value\"", i + 1);
+	if (isEmptyOrWspace(data, i+1))
+		return (std::cout << "# No data to import", i + 2);
 	return (0);
 }
 
