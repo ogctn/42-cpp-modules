@@ -7,22 +7,15 @@
 # include <vector>
 # include <cstdlib> 
 # include <cstring>
-
 # include <string>
 # include <cerrno>
 # include <limits>
 # include <ctime>
 # include <algorithm>
 
-# define DATA_CSV "btc.csv"
 
-typedef struct	s_date {
-	int	year;
-	int	month;
-	int	day;
-}	t_date;
+# define DATA_CSV "data.csv"
 
-std::string	getDate();
 
 class BitcoinExchange {
 	private:
@@ -30,6 +23,7 @@ class BitcoinExchange {
 		std::vector<int>			_dateInt;
 		std::vector<std::string>	_input;
 		std::vector<std::string>	_result;
+
 
 	public:
 		BitcoinExchange();
@@ -41,18 +35,14 @@ class BitcoinExchange {
 		std::vector<std::string>	getPriceData() const;
 		std::vector<std::string>	getInput() const;
 		std::vector<std::string>	getResult() const;
-		std::string					getDate() const;
-		std::string					getLineByFind(const std::vector<std::string> &vec, const std::string &date) const;
-		std::string					parseDate(const std::string &line) const;
-		float						parseVal(const std::string &line) const;
 
 		void	readData(std::string src, char delimiter);
 		int		fillData(std::vector<std::string> &data, char delimiter);
 		void	printData(const std::vector<std::string> &vec) const;
 		
 		void	calculate(const std::string &input_file);
-		float	findClosestPrice(const std::string &find); 
-		float	getPrice(std::string line);
+		float	findClosestPrice(const std::string &line); 
+		float	findAndMultValues(std::string line);
 };
 
 
