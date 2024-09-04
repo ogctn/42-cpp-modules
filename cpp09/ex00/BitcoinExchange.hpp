@@ -5,13 +5,6 @@
 # include <fstream>
 # include <sstream>
 # include <vector>
-# include <cstdlib> 
-# include <cstring>
-# include <string>
-# include <cerrno>
-# include <limits>
-# include <ctime>
-# include <algorithm>
 
 
 # define DATA_CSV "data.csv"

@@ -85,12 +85,6 @@ std::string getError(std::string line, char delimiter) {
 		return("# Date does not exist.");
 
 	tmp = line.substr(delim_pos + 1, line.size() - delim_pos - 1);
-if (delimiter == '|') {
-	std::cout << "line: \'" << (line) << "\'" << std::endl;
-	std::cout << "why: \'" << getAfterDelim(line, delimiter) << "\'" << std::endl;
-	std::cout << "tmp: \'" << (tmp) << "\'" << std::endl;
-}
-
 	if (!isValidFloatFormat(tmp))
 		return("# Bad format, check after delimiter.");
 	if (tmp.size() > 38)

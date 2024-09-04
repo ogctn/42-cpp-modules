@@ -1,8 +1,6 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-# include <iostream>
-
 bool	isEmptyOrWspace(const std::string &line);
 bool	isEmptyOrWspace(const std::vector<std::string> &data, size_t begin);
 int		allEmptyControl(std::vector<std::string> &data, char delimiter);
