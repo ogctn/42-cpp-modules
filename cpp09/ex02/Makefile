@@ -1,7 +1,7 @@
-SRC = main.cpp PmergeMe.cpp
+SRC = main.cpp PmergeMe.cpp utils.cpp
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
-NAME = ex02
+NAME = PmergeMe
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
@@ -31,9 +31,9 @@ re: fclean all
 
 run: re
 	@make clean
-	@echo "Runing $(NAME):"	
+	@echo "Runing $(NAME) with arguments: 3 5 9 7 4"	
 	@echo "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n"
-	@./$(NAME)
+	@./$(NAME) 3 5 9 7 4
 	@echo "\n________________________________________"
 
 .PHONY: all clean fclean re
