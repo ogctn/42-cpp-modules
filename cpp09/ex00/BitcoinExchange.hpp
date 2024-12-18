@@ -5,7 +5,8 @@
 # include <fstream>
 # include <sstream>
 # include <vector>
-
+# include <algorithm>
+# include <cstring> // std::strerror
 
 # define DATA_CSV "data.csv"
 
