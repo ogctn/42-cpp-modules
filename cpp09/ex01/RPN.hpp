@@ -18,11 +18,9 @@ class RPN {
 		RPN(RPN const & src);
 		RPN & operator=(RPN const & src);
 
-		void parse(std::string const & str);
 		void calculate();
 		void printResult() const;
 		void doOp(char op);
-
 };
 
 # endif

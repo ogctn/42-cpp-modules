@@ -21,16 +21,6 @@ RPN &RPN::operator=(RPN const & src) {
 	return (*this);
 }
 
-int charToInt(std::string str)
-{
-	std::stringstream ss(str);
-	int n;
-	ss >> n;
-	if (ss.fail())
-		throw std::invalid_argument("Invalid argument");
-	return (n);
-}
-
 bool isOperator(char c)
 {
 	return (c == '+' || c == '-' || c == '*' || c == '/');
@@ -44,7 +34,7 @@ void RPN::calculate()
 			_str.erase(0, 1);
 		else if (_str[0] >= '0' && _str[0] <= '9')
 		{
-			_stack.push(charToInt(_str.substr(0, 1)));
+			_stack.push(_str[0] - '0');
 			_str.erase(0, 1);
 		}
 		else if (isOperator(_str[0]))
@@ -80,7 +70,7 @@ void RPN::doOp(char op)
 			if (a == 0)
 				throw std::invalid_argument("Division by zero");
 			_stack.push(b / a);
-			break;
+		break;
 	}
 }
 
