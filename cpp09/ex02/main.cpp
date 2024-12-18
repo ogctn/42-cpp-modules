@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include "utils.hpp"
 
 int	main(int ac, char *av[])
 {
@@ -8,10 +9,11 @@ int	main(int ac, char *av[])
 	}
 
 	try {
-		PmergeMe	m(av);
-		m.print(m.getList());
-		std::cout << "Size: " << m.getSize() << std::endl;
-		m.FJA(m.getList());
+		PmergeMe	m;
+		m.fillData(av, LIST);
+		m.print(LIST);
+
+
 
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;

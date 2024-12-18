@@ -5,15 +5,21 @@
 # include <deque>
 # include <list>
 
+# define LIST 0
+# define DEQUE 1
+
 bool	isOnlyDigits(const char *);
 
 class PmergeMe
 {
 	private:
-		std::list< std::pair<int,int> >		_list;
-		std::deque< std::pair<int,int> >	_deque;
-		size_t	_size;
+		std::list<int>	_list_first;
+		std::list<int>	_list_second;
+		std::deque<int>	_deque_first;
+		std::deque<int>	_deque_second;
 
+	private:
+		void	pushPair(int val1, int val2, bool flag);
 
 	public:
 		PmergeMe();
@@ -22,19 +28,15 @@ class PmergeMe
 		PmergeMe(const PmergeMe &);
 		PmergeMe &operator=(const PmergeMe &);
 
-		std::list< std::pair<int,int> >		&getList();
-		std::deque< std::pair<int,int> >	&getDeque();
-		size_t			getSize();
+		void	print(bool flag);
+		void	print();
 
-		# include "PmergeMe.tpp"
-
-	private:
-		void	fillData(char *av[]);
-		void	pushPair(int, int);
-
+		void	fillData(char *av[], bool flag);
 
 
 };
+
+# include "PmergeMe.tpp"
 
 
 # endif
