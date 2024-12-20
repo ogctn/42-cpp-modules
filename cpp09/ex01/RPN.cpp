@@ -51,9 +51,9 @@ void RPN::doOp(char op)
 {
 	if (_stack.size() < 2)
 		throw std::invalid_argument("Invalid argument");
-	int a = _stack.top();
+	float a = _stack.top();
 	_stack.pop();
-	int b = _stack.top();
+	float b = _stack.top();
 	_stack.pop();
 	switch (op)
 	{

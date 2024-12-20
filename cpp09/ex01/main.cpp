@@ -7,10 +7,11 @@ int main (int ac, char **av)
 	if (ac < 2)
 	{
 		std::cerr << "Usage: ./rpn \"RPN expression\"" << std::endl;
-		return 1;
+		return(1);
 	}
 
 	std::string str;
+	str.clear();
 	for (int i = 1; av[i]; i++)
 	{
 		str += av[i];
@@ -21,7 +22,7 @@ int main (int ac, char **av)
 	if (str.empty())
 	{
 		std::cerr << "Usage: ./rpn \"RPN expression\"" << std::endl;
-		return 1;
+		return(1);
 	}
 
 	try {
@@ -32,5 +33,5 @@ int main (int ac, char **av)
 		std::cerr << e.what() << std::endl;
 	}
 
-	return 0;
+	return(0);
 }
