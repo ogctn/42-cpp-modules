@@ -1,38 +1,36 @@
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
+# include "utils.hpp"
 # include <iostream>
 # include <deque>
 # include <list>
+# include <algorithm>
 
 # define LIST 0
 # define DEQUE 1
 
-bool	isOnlyDigits(const char *);
 
 class PmergeMe
 {
 	private:
-		std::list<int>	_list_first;
-		std::list<int>	_list_second;
-		std::deque<int>	_deque_first;
-		std::deque<int>	_deque_second;
-
-	private:
-		void	pushPair(int val1, int val2, bool flag);
+		std::list<int>	_listA;
+		std::list<int>	_listB;
+		std::deque<int>	_dequeA;
+		std::deque<int>	_dequeB;
+		char **_av;
+		PmergeMe();
 
 	public:
-		PmergeMe();
-		PmergeMe(char *av[]);
+		PmergeMe(char **av);
 		~PmergeMe();
 		PmergeMe(const PmergeMe &);
 		PmergeMe &operator=(const PmergeMe &);
 
-		void	print(bool flag);
-		void	print();
+		void	runList();
+		void	runDeque();
 
-		void	fillData(char *av[], bool flag);
-
+		void	print(bool c_type);
 
 };
 

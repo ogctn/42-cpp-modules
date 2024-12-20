@@ -1,7 +1,6 @@
 #include "PmergeMe.hpp"
-#include "utils.hpp"
 
-int	main(int ac, char *av[])
+int	main(int ac, char **av)
 {
 	if (ac < 2) {
 		std::cout << "Usage: ./PmergeMe <int> <int> ... <int>" << std::endl;
@@ -9,11 +8,10 @@ int	main(int ac, char *av[])
 	}
 
 	try {
-		PmergeMe	m;
-		m.fillData(av, LIST);
+		PmergeMe	m(av);
+		std::cout << "Time to sort elements using  std::list : " << measureTime(&PmergeMe::runList, m)  << " us." << std::endl;
+		std::cout << "Time to sort elements using std::deque : " << measureTime(&PmergeMe::runDeque, m) << " us." << std::endl;
 		m.print(LIST);
-
-
 
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
