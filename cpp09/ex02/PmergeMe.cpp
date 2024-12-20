@@ -27,19 +27,7 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src) {
 	return (*this);
 }
 
-void	PmergeMe::print(bool c_type) {
-
-	std::cout << "After: ";
-	if (c_type == LIST) {
-		for (std::list<int>::iterator it = _listA.begin(); it != _listA.end(); it++)
-			std::cout << *it << " ";
-	}
-	else {
-		for (std::deque<int>::iterator it = _dequeA.begin(); it != _dequeA.end(); it++)
-			std::cout << *it << " ";
-	}
-	std::cout << std::endl;
-}
+std::list<int>	&PmergeMe::getListA() { return (_listA); }
 
 void PmergeMe::runList() {
 	

@@ -14,10 +14,8 @@
 class PmergeMe
 {
 	private:
-		std::list<int>	_listA;
-		std::list<int>	_listB;
-		std::deque<int>	_dequeA;
-		std::deque<int>	_dequeB;
+		std::list<int>	_listA, _listB;
+		std::deque<int>	_dequeA, _dequeB;
 		char **_av;
 		PmergeMe();
 
@@ -27,10 +25,10 @@ class PmergeMe
 		PmergeMe(const PmergeMe &);
 		PmergeMe &operator=(const PmergeMe &);
 
+		std::list<int>	&getListA();
+
 		void	runList();
 		void	runDeque();
-
-		void	print(bool c_type);
 
 };
 
